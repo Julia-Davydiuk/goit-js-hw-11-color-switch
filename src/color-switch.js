@@ -8,24 +8,18 @@ const randomIntegerFromInterval = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
 
-btnStartRef.addEventListener('click', randomColor);
+btnStartRef.addEventListener('click', function randomColor () {
+  btnStartRef.removeEventListener('click', randomColor);
+  btnStartRef.disabled = true;
 
-function randomColor () {
   const intervalColor = setInterval(() => {
       bodyRef.style.backgroundColor = colors[randomIntegerFromInterval(0, 5)];
   }, 500);
-    
-  function startColor () {
-      btnStartRef.removeEventListener('click', startColor);
-      btnStartRef.disabled = true;
-  };   
-  
-  btnStopRef.addEventListener('click', stopColor);  
-
-  function stopColor () {
+      
+  btnStopRef.addEventListener('click', function stopColor () {
     clearInterval(intervalColor);
     btnStartRef.disabled = false;
-    btnStartRef.addEventListener('click', startColor);
+    btnStartRef.addEventListener('click', randomColor);
     btnStopRef.removeEventListener('click', stopColor);
-  };
-}
+  });
+});
